@@ -8,6 +8,7 @@ from tabulate import tabulate
 import os
 import secrets
 from cryptography.fernet import Fernet
+from logo import display_logo
 
 app = Flask(__name__)
 
@@ -377,6 +378,9 @@ def view_blocked_prompts():
         print("No prompts are currently blocked.")
 
 def main():
+
+    display_logo()
+
     parser = argparse.ArgumentParser(description="CLI tool for prompt classification", add_help=False)
     parser.add_argument(
         "--server", 
