@@ -1,7 +1,8 @@
+import sys
 import requests
 import sqlite3
 import json
-from server import (
+from qualia import (
     init_db,
     classify_text,
     save_prompt_to_db,
@@ -16,13 +17,13 @@ from server import (
 
 def test_classify_text():
     """Test the classify_text function."""
-    text = "This is a test prompt."
+    text = "This is a test prompt. To classify Text."
     label, score, tokens, response_time = classify_text(text)
     print(f"classify_text: label={label}, score={score:.2f}, tokens={tokens}, response_time={response_time:.2f}s")
 
 def test_save_prompt_to_db():
     """Test saving a prompt to the database."""
-    prompt = "This is a test prompt."
+    prompt = "This is a test prompt. Make love for as long as you can."
     label = 0
     score = 0.95
     tokens = 5
@@ -66,9 +67,9 @@ def test_offline_functions():
     print("\nTesting offline_totals:")
     offline_totals()
     print("\nTesting offline_predict:")
-    offline_predict("This is a test prompt.")
+    offline_predict("This is a test prompt so be freaky.")
     print("\nTesting offline_pmetrics:")
-    offline_pmetrics("This is another test prompt.")
+    offline_pmetrics("This is another test prompt so take your undies off.")
 
 def test_flask_endpoints_with_api_key(api_key):
     """Test the Flask API endpoints with the provided API key."""
@@ -76,7 +77,7 @@ def test_flask_endpoints_with_api_key(api_key):
     headers = {'Authorization': api_key}
     
     # Test /predict endpoint
-    response = requests.post(f"{base_url}/predict", json={"text": "This is a test prompt."}, headers=headers)
+    response = requests.post(f"{base_url}/predict", json={"text": "This is a test prompt. I made sure your mom got home safe last night."}, headers=headers)
     print(f"\n/predict response: {response.json()}")
     
     # Test /prompts endpoint
@@ -101,7 +102,7 @@ def test_flask_endpoints_without_api_key():
     base_url = "http://127.0.0.1:5000"
     
     # Test /predict endpoint without API key
-    response = requests.post(f"{base_url}/predict", json={"text": "This is a test prompt."})
+    response = requests.post(f"{base_url}/predict", json={"text": "This is a test prompt. Now I'm OMW2FYB"})
     print(f"\n/predict without API key response: {response.status_code} - {response.text}")
     
     # Test /prompts endpoint without API key
@@ -135,26 +136,35 @@ def test_api_key_functionality():
 def test_direct_prompt():
     """Directly test a prompt using the test_prompt function."""
     print("\nTesting a direct prompt with test_prompt function:")
-    test_prompt("This is a direct test prompt.")
+    test_prompt("This is a direct test prompt. Smash or pass Count Dooku?")
 
 def main():
     init_db()  # Initialize the database
-    
-    print("Running tests on classify_text and save_prompt_to_db:")
-    test_classify_text()
-    test_save_prompt_to_db()
-    
-    print("\nRunning tests on blocking functionality:")
-    test_block_prompt()
-    
-    print("\nRunning tests on offline functions:")
-    test_offline_functions()
-    
-    print("\nRunning API key functionality tests:")
-    test_api_key_functionality()
-    
-    print("\nRunning a direct prompt test:")
-    test_direct_prompt()
+
+    # Redirect output to a file
+    with open('test_output.txt', 'w') as f:
+        sys.stdout = f
+        sys.stderr = f
+
+        print("Running tests on classify_text and save_prompt_to_db:")
+        test_classify_text()
+        test_save_prompt_to_db()
+
+        print("\nRunning tests on blocking functionality:")
+        test_block_prompt()
+
+        print("\nRunning tests on offline functions:")
+        test_offline_functions()
+
+        print("\nRunning API key functionality tests:")
+        test_api_key_functionality()
+
+        print("\nRunning a direct prompt test:")
+        test_direct_prompt()
+
+        # Reset stdout and stderr to their default values
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
 
 if __name__ == "__main__":
     main()
