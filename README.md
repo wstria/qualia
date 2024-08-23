@@ -14,7 +14,7 @@ python qualia.py
 
 Different Usage Commands:
 
-![[Pasted image 20240823113213.png]]
+![image](https://github.com/user-attachments/assets/7af4006f-45ec-41bc-8262-4d17b2518300)
 
 A test script is provided to test each function upon start-up.
 
